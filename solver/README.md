@@ -1,7 +1,15 @@
 # Multithreaded Sudoku Solver
 # Project Overview
 
-This project is separated into 2 main components: 1) a single-threaded, recursive Sudoku-solving algorithm; 2) a multithreaded umbrella method which organizes the entire program and lets threads make use of the powerful single-threaded solving algorithm.
+This project is separated into 2 main components: 
+1) a single-threaded, recursive Sudoku-solving algorithm;
+2) a multithreaded umbrella method which organizes the entire program and lets threads make use of the powerful single-threaded solving algorithm.
+
+The code is factored into 4 files:
+  * Main.java
+  * Solver.java (holds most of the logic)
+  * Board.java (holds the board, printing, duplication, and validation methods)
+  * Constants.java
 
 ## Single-Threaded Recursive Algorithm
 
@@ -41,6 +49,6 @@ $ git clone https://github.com/RealMaximeCaloz/Multithreaded-Sudoku-Solver.git
 ``` 
 
 # How to Run
-1. Input your Sudoku board in the `board` array at the top of `Main.java`. Use `0` to represent empty cells.
+1. Input your Sudoku board in the `defaultBoard` array at the top of `Board.java`. Use `0` to represent empty cells.
 2. Run `Main.java`.
 3. The result will be printed in your terminal.
