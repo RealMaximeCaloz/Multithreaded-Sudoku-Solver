@@ -1,11 +1,14 @@
 package solver;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class Board implements Cloneable{
     private int[][] boardData;
 
     public Board(){
         // Set very difficult board to solve, near impossible for humans to solve 
-        int[][] defaultBoard = {   
+        int[][] defaultBoard = {
             {0, 2, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 6, 0, 0, 0, 0, 3},
             {0, 7, 4, 0, 8, 0, 0, 0, 0},
@@ -36,13 +39,13 @@ public class Board implements Cloneable{
     }
 
     // Getter for specific tile on Sudoku Board
-    public int getBoardTile(int i, int j){ 
-        return this.boardData[i][j];
+    public int getBoardTile(int row, int col){
+        return this.boardData[row][col];
     }
 
     // Setter for specific tile on Sudoku Board
-    public void setBoardTile(int i, int j, int value){ 
-        this.boardData[i][j] = value; 
+    public void setBoardTile(int row, int col, int value){
+        this.boardData[row][col] = value;
     }
 
     // Method to print the board at any time
@@ -67,43 +70,31 @@ public class Board implements Cloneable{
 
     // Method to create copy of the Board
     public Board clone(){
-        // Method which creates a deep copy of the initial board to solve,
-        // to feed this copy into a separate thread
-        int[][] deepCopyBoard = new int[9][9];
-            for (int i=0; i<9;i++){
-                for (int j=0;j<9;j++){
-                    deepCopyBoard[i][j] = this.boardData[i][j];
-                }
+        int[][] deepCopyBoard = new int[Constants.GRID_SIZE][Constants.GRID_SIZE];
+        for (int row=0; row<Constants.GRID_SIZE;row++){
+            for (int col=0;col<Constants.GRID_SIZE;col++){
+                deepCopyBoard[row][col] = this.boardData[row][col];
             }
-            Board boardToReturn = new Board(deepCopyBoard);
-            return boardToReturn;
+        }
+        Board boardToReturn = new Board(deepCopyBoard);
+        return boardToReturn;
     }
 
-    // Method to verify if a number-guess is already present in a given sudoku row
     public boolean isNumberInRow(int number, int row) {
-        for (int i = 0; i < Constants.GRID_SIZE; i++) {
-            if (this.boardData[row][i] == number) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(this.boardData[row])
+                .anyMatch(n -> n == number);
     }
-    
-    // Method to verify if a number-guess is already present in a given sudoku column
+
     public boolean isNumberInColumn(int number, int column) {
-        for (int i = 0; i < Constants.GRID_SIZE; i++) {
-            if (this.boardData[i][column] == number) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(0, Constants.GRID_SIZE)
+                .anyMatch(i -> this.boardData[i][column] == number);
     }
-    
+
     // Method to verify if a number-guess is already present in a given sudoku 3x3 box grid
     public boolean isNumberInBox(int number, int row, int column) {
         int topLeftRowLocalBox = row - row % 3;
         int topLeftColumnLocalBox = column - column % 3;
-        
+
         for (int i = topLeftRowLocalBox; i < topLeftRowLocalBox + 3; i++) {
             for (int j = topLeftColumnLocalBox; j < topLeftColumnLocalBox + 3; j++) {
                 if (this.boardData[i][j] == number) {

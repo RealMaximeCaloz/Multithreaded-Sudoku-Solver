@@ -1,29 +1,23 @@
 package solver;
 
-// Start Main class
+
 public class Main{
-  // Start Main Method
   public static void main(String[] args) {
-   
-    // Initialize Board object
+
+    // Initialize board and solver
     Board board = new Board();
+    Solver solver = new Solver();
 
-    // Initialize Solver
-    Solver mySolver = new Solver();
+    // Print the initial board
+    System.out.println("\nStarting Board:");
+    System.out.print(board);
 
-    // Print the initial board to solve on screen
-    System.out.println("");
-    System.out.println("Starting Board:");
-    System.out.print(board);;
-  
-    // Solve the board if possible, and print the result
-    if (mySolver.multithreadedSolveBoard(board)) {
-      System.out.println(""); 
+    // Solve the board and print the result
+    if (solver.multithreadedSolveBoard(board)) {
+      System.out.println("");
     }
     else {
-      System.out.println("");
-      System.out.println("Unsolvable board :(");
-      System.out.println("");
+      System.out.println("\nUnsolvable board :(\n");
     }
   }
 }
